@@ -9,7 +9,8 @@ export class TwitterStrategy extends PassportStrategy(Strategy, 'twitter') {
     super({
       consumerKey: 'ZN8BasIATQM1lFfimzWuJ96sQ',
       consumerSecret: 'Dhwiqplweoq1YedgH19qrYK2LTODezvvOvuDbI57N4SY8cVQ4g',
-      callbackURL: 'http://localhost:3017/api/v1/auth/twitter/redirect',
+      callbackURL: 'https://alpharesearchtool.herokuapp.com/api/v1/auth/twitter/redirect',
+      // callbackURL: 'http://localhost:3017/api/v1/auth/twitter/redirect',
       includeEmail: true,
       // consumerKey: env.TWITTER_CONSUMER_KEY,
       // consumerSecret: env.TWITTER_CONSUMER_SECRET,
