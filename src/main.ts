@@ -6,6 +6,6 @@ async function bootstrap() {
   app.enableCors()
   app.use(session({ secret: 'SECRET' }));
 
-  await app.listen(3017);
+  await app.listen(process.env.PORT || 3017);
 }
 bootstrap();
