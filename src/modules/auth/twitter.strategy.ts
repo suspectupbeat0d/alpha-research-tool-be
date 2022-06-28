@@ -7,10 +7,13 @@ import { env } from 'process';
 export class TwitterStrategy extends PassportStrategy(Strategy, 'twitter') {
   constructor() {
     super({
-      consumerKey: env.TWITTER_CONSUMER_KEY,
-      consumerSecret: env.TWITTER_CONSUMER_SECRET,
-      callbackURL: env.TWITTER_CALLBACK_URL,
-      includeEmail: true
+      consumerKey: 'ZN8BasIATQM1lFfimzWuJ96sQ',
+      consumerSecret: 'Dhwiqplweoq1YedgH19qrYK2LTODezvvOvuDbI57N4SY8cVQ4g',
+      callbackURL: 'http://localhost:3017/api/v1/auth/twitter/redirect',
+      includeEmail: true,
+      // consumerKey: env.TWITTER_CONSUMER_KEY,
+      // consumerSecret: env.TWITTER_CONSUMER_SECRET,
+      // callbackURL: env.TWITTER_CALLBACK_URL,
       // scope: 'email',
       // profileFields: ['emails', 'name', 'username'],
     });
@@ -22,16 +25,16 @@ export class TwitterStrategy extends PassportStrategy(Strategy, 'twitter') {
     profile: any,
     done: (err: any, user: any, info?: any) => void,
   ): Promise<any> {
-    const { displayName, emails, photos, provider,username } = profile;
+    const { displayName, emails, photos, provider, username } = profile;
 
-    const user = {  
+    const user = {
       name: displayName,
       email: emails[0].value,
       avatar: photos[0].value.replace(/_normal\./, '.'),
       username: username,
       provider: provider,
-    //   followers: followers_count,
-    //   following: friends_count
+      //   followers: followers_count,
+      //   following: friends_count
     };
 
     done(null, user);

@@ -95,10 +95,8 @@ export class AuthController extends CommonServices {
   async twitterLoginRedirect(@Req() req, @Res() res: Response): Promise<any> {
     try {
       const usersList = await this.verifiedUserRepo.find();
-      console.log(req.user, 'RIGHT AFTER TWITTER LOGIN');
-      console.log(usersList[0].users, 'usersList');
       if (!usersList[0].users.includes(req.user.username)) {
-        res.redirect(`${env.FRONTEND_URL}/NOT_EXIST`);
+        res.redirect(`http://localhost:3000/verifyToken/NOT_EXIST`);
         return;
       }
       const user = await this.userService.sharedFindOne({
@@ -123,7 +121,7 @@ export class AuthController extends CommonServices {
         userResp = await this.authService.login(createUser, req.user);
       }
       res.redirect(
-        `${env.FRONTEND_URL}/${userResp.access_token}`,
+        `http://localhost:3000/verifyToken/${userResp.access_token}`,
       );
     } catch (error) {
       console.log(error);
