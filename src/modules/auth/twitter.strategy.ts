@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Profile, Strategy } from 'passport-twitter';
+import { env } from 'process';
 
 @Injectable()
 export class TwitterStrategy extends PassportStrategy(Strategy, 'twitter') {
   constructor() {
-
     super({
-    consumerKey:'ZN8BasIATQM1lFfimzWuJ96sQ',
-    consumerSecret: 'Dhwiqplweoq1YedgH19qrYK2LTODezvvOvuDbI57N4SY8cVQ4g',
-    callbackURL: `http://localhost:3017/auth/twitter/redirect`,
-    includeEmail: true
-    // scope: 'email',
-    // profileFields: ['emails', 'name', 'username'],
+      consumerKey: env.TWITTER_CONSUMER_KEY,
+      consumerSecret: env.TWITTER_CONSUMER_SECRET,
+      callbackURL: env.TWITTER_CALLBACK_URL,
+      includeEmail: true
+      // scope: 'email',
+      // profileFields: ['emails', 'name', 'username'],
     });
   }
 
