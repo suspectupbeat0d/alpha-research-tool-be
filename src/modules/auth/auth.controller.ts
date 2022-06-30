@@ -96,8 +96,8 @@ export class AuthController extends CommonServices {
     try {
       const usersList = await this.verifiedUserRepo.find();
       if (!usersList[0].users.includes(req.user.username)) {
-        // res.redirect(`http://localhost:3000/verifyToken/NOT_EXIST`);
-        res.redirect(`https://alpha-research-tool-frontend.vercel.app/verifyToken/NOT_EXIST`);
+        res.redirect(
+          `${env.FRONTEND_URL}/NOT_EXIST`);
         return;
       }
       const user = await this.userService.sharedFindOne({
@@ -121,10 +121,7 @@ export class AuthController extends CommonServices {
         });
         userResp = await this.authService.login(createUser, req.user);
       }
-      res.redirect(
-        // `http://localhost:3000/verifyToken/${userResp.access_token}`,
-        `https://alpha-research-tool-frontend.vercel.app/verifyToken/${userResp.access_token}`,
-      );
+      res.redirect(`${env.FRONTEND_URL}/${userResp.access_token}`);
     } catch (error) {
       console.log(error);
     }

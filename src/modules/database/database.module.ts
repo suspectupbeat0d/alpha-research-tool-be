@@ -1,16 +1,19 @@
 import { Module } from '@nestjs/common';
+import { projectProviders } from '../project/project.provider';
 import { usersProviders, verifiedUsersProviders } from '../user/user.provider';
 import { databaseProviders } from './database.provider';
 
 @Module({
   providers: [
-    ...databaseProviders,
     ...usersProviders,
+    ...projectProviders,
+    ...databaseProviders,
     ...verifiedUsersProviders,
   ],
   exports: [
-    ...databaseProviders,
     ...usersProviders,
+    ...projectProviders,
+    ...databaseProviders,
     ...verifiedUsersProviders,
   ],
 })

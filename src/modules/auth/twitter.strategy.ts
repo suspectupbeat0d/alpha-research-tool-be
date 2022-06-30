@@ -7,14 +7,10 @@ import { env } from 'process';
 export class TwitterStrategy extends PassportStrategy(Strategy, 'twitter') {
   constructor() {
     super({
-      consumerKey: 'ZN8BasIATQM1lFfimzWuJ96sQ',
-      consumerSecret: 'Dhwiqplweoq1YedgH19qrYK2LTODezvvOvuDbI57N4SY8cVQ4g',
-      callbackURL: 'https://alpharesearchtool.herokuapp.com/api/v1/auth/twitter/redirect',
-      // callbackURL: 'http://localhost:3017/api/v1/auth/twitter/redirect',
-      includeEmail: true,
-      // consumerKey: env.TWITTER_CONSUMER_KEY,
-      // consumerSecret: env.TWITTER_CONSUMER_SECRET,
-      // callbackURL: env.TWITTER_CALLBACK_URL,
+      consumerKey: env.TWITTER_CONSUMER_KEY,
+      consumerSecret: env.TWITTER_CONSUMER_SECRET,
+      callbackURL: env.TWITTER_CALLBACK_URL,
+      includeEmail: true
       // scope: 'email',
       // profileFields: ['emails', 'name', 'username'],
     });
@@ -26,16 +22,17 @@ export class TwitterStrategy extends PassportStrategy(Strategy, 'twitter') {
     profile: any,
     done: (err: any, user: any, info?: any) => void,
   ): Promise<any> {
-    const { displayName, emails, photos, provider, username } = profile;
+    console.log(profile._json, "profile._json")
+    const { displayName, emails, photos, provider,username } = profile;
 
-    const user = {
+    const user = {  
       name: displayName,
       email: emails[0].value,
       avatar: photos[0].value.replace(/_normal\./, '.'),
       username: username,
       provider: provider,
-      //   followers: followers_count,
-      //   following: friends_count
+      followers: profile._json.followers_count,
+      following: profile._json.friends_count
     };
 
     done(null, user);

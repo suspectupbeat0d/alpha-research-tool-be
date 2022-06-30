@@ -5,4 +5,5 @@ export const en = {
   blocked: 'You account is blocked by admin.',
   loggedIn: 'Logged in successfully',
   accountCreated: 'Account created successfully',
+  onlyAdmin: 'Only admin can access this data.'
 };

@@ -9,8 +9,8 @@ export interface IUserDocument extends Document {
   avatar: string;
   metamaskId: string;
   provider: string;
-  followers: string;
-  following: string;
+  followers: number;
+  following: number;
   isActive: boolean;
   roles: Array<string>;
   createdAt: Date;
@@ -46,10 +46,10 @@ const UserSchema = new mongoose.Schema<IUserDocument>(
       type: String,
     },
     followers: {
-      type: String,
+      type: Number,
     },
     following: {
-      type: String,
+      type: Number,
     },
     roles: [
       {
