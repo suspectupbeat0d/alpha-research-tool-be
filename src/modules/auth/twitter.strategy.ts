@@ -22,7 +22,6 @@ export class TwitterStrategy extends PassportStrategy(Strategy, 'twitter') {
     profile: any,
     done: (err: any, user: any, info?: any) => void,
   ): Promise<any> {
-    console.log(profile._json, "profile._json")
     const { displayName, emails, photos, provider,username } = profile;
 
     const user = {  

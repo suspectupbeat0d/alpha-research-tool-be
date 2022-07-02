@@ -19,6 +19,7 @@ import { env } from 'process';
 import { Model } from 'mongoose';
 import { VERIFIED_REPOSITORY } from 'src/constants';
 import { IVerifiedUserDocument } from '../user/verified.schema';
+import { BLOCKED, NOT_EXIST } from 'src/constants/auth.constant';
 
 @Controller('auth')
 export class AuthController extends CommonServices {
@@ -97,19 +98,17 @@ export class AuthController extends CommonServices {
       const usersList = await this.verifiedUserRepo.find();
       if (!usersList[0].users.includes(req.user.username)) {
         res.redirect(
-          `${env.FRONTEND_URL}/NOT_EXIST`);
+          `${env.FRONTEND_URL}/${NOT_EXIST}`);
         return;
       }
       const user = await this.userService.sharedFindOne({
         email: req.user.email,
       });
-      if (user?.isActive === false)
-        return this.sendResponse(
-          this.messages.blocked,
-          {},
-          HttpStatus.FORBIDDEN,
-          res,
-        );
+      if (user?.isActive === false) {
+        res.redirect(
+          `${env.FRONTEND_URL}/${BLOCKED}`);
+        return;
+      }
       let userResp: any = {};
       if (user) {
         userResp = await this.authService.login(user, req.user);
