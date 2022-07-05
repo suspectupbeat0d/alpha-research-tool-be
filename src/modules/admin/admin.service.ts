@@ -22,16 +22,15 @@ export class AdminService extends sharedCrudService {
    * @returns
    */
   async getAllUsers(page: number, resPerPage: number, search): Promise<any> {
-
-    console.log(search, "SEARCH !!!")
     const query = [];
     query.push({
       roles: {
         $nin: EAdminType.ADMIN,
       }
     })
-    if (search) query.push({$or:[{name: { $regex: search, $options: 'i' }},{email: { $regex: search, $options: 'i' }}]});
-    console.log(query, "QUERY")
+
+    if (search) query.push({$or:[{name: { $regex: search, $options: 'i' }},{username: { $regex: search, $options: 'i' }}, {email: { $regex: search, $options: 'i' }}]});
+    
     const [users, usersCount] = await Promise.all([
       this.userRepo
         .find({ $and: [...query] })

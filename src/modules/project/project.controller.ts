@@ -47,4 +47,56 @@ export class ProjectController extends CommonServices {
       );
     }
   }
+
+  @Get('all')
+  async getMarketPlaceMemes(
+    @Req() req: any,
+    @Res() res: Response,
+    @Query() query,
+  ): Promise<any> {
+    try {
+      const page = Number(query.page);
+      const resPerPage = Number(query.resPerPage);
+      const title = query.title;
+      const price = Number(query.price);
+
+      const projects = await this.projectService.getAllProjects(
+        page,
+        resPerPage,
+        title,
+        price,
+      );
+      return this.sendResponse(
+        this.messages.Success,
+        projects,
+        HttpStatus.OK,
+        res,
+      );
+    } catch (error) {
+      console.log(error);
+      return this.sendResponse(
+        this.messages.Error,
+        {},
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        res,
+      );
+    }
+  }
+
+  @Get('details/:id')
+  async getProjectDetail(@Req() req: any, @Res() res: Response): Promise<any> {
+    try {
+      const project = await this.projectService.sharedFindOne({_id: req.params.id})
+      return this.sendResponse(this.messages.Success, project, HttpStatus.OK, res);
+    } catch (error) {
+      console.log(error);
+      return this.sendResponse(
+        this.messages.Error,
+        {},
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        res,
+      );
+    }
+  }
+
 }

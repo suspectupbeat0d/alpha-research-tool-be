@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose';
 import { Document } from 'mongoose';
+import { EProjectType } from 'src/enums/project.enums';
 
 export interface IProjectDocument extends Document {
   image: string;
@@ -8,15 +9,16 @@ export interface IProjectDocument extends Document {
   ebCount: number;
   notableFollowers: string;
   notableFollowersCount: number;
-  h24: number;
-  d7: number;
-  followers: string;
+  changes: Object;
+  previousStats: Object;
+  followers: number;
   tweets: number;
   creationDate: string;
   foundDate: string;
   foundAt: string;
   ebs: string;
   ebScore: number;
+  status: string;
   createdAt: Date;
   updatedAt: Date;
   deletedAt: Date;
@@ -38,25 +40,29 @@ const ProjectSchema = new mongoose.Schema<IProjectDocument>(
       type: String,
     },
     notableFollowersCount: {
-      type: Number
-    },
-    h24: {
       type: Number,
     },
-    d7: {
-      type: Number,
+    changes: {
+      type: Object,
+    },
+    previousStats: {
+      type: Object,
     },
     followers: {
-      type: String,
+      type: Number,
     },
     tweets: {
       type: Number,
     },
-    creationDate: {type: String},
-    foundDate: {type: String},
-    foundAt: {type: String},
-    ebs: {type: String},
-    ebScore: {type: Number},
+    creationDate: { type: String },
+    foundDate: { type: String },
+    foundAt: { type: String },
+    ebs: { type: String },
+    ebScore: { type: Number },
+    status: {
+      type: String,
+      default: EProjectType.ACTIVE,
+    },
     deletedAt: Date,
   },
   {
