@@ -21,7 +21,7 @@ export class AdminService extends sharedCrudService {
    * @param userId
    * @returns
    */
-  async getAllUsers(page: number, resPerPage: number, search): Promise<any> {
+  async getAllUsers(page: number, resPerPage: number, search, type: boolean): Promise<any> {
     const query = [];
     query.push({
       roles: {
@@ -30,7 +30,7 @@ export class AdminService extends sharedCrudService {
     })
 
     if (search) query.push({$or:[{name: { $regex: search, $options: 'i' }},{username: { $regex: search, $options: 'i' }}, {email: { $regex: search, $options: 'i' }}]});
-    
+    if(type) query.push({isActive: type})
     const [users, usersCount] = await Promise.all([
       this.userRepo
         .find({ $and: [...query] })

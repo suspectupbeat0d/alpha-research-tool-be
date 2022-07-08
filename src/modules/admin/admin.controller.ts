@@ -41,10 +41,12 @@ export class AdminController extends CommonServices {
       const page = Number(query.page);
       const resPerPage = Number(query.resPerPage);
       const search = query.search;
+      const type = query.type;
       const users = await this.adminService.getAllUsers(
         page,
         resPerPage,
         search,
+        type
       );
       return this.sendResponse(
         this.messages.Success,
