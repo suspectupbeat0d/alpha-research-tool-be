@@ -1,5 +1,6 @@
 export const en = {
   Success: 'Operation is completed Success',
+  updated: 'Project updated Successfully.',
   Error: 'Something Went Wrong',
   unAuthrized: 'email or password is incorrect.',
   blocked: 'You account is blocked by admin.',

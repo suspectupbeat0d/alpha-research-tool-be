@@ -26,6 +26,9 @@ export class sharedCrudService {
   sharedFind = (clause) => {
     return this.service.find(clause);
   };
+  sharedFindByIdAndUpdate = (clause, body) => {
+    return this.service.findByIdAndUpdate(clause, body, { new: true });
+  };
   sharedDelete = (clause) => {
     return this.service.deleteOne(clause);
   };

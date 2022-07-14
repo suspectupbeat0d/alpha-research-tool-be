@@ -48,6 +48,25 @@ export class ProjectController extends CommonServices {
     }
   }
 
+  @Put('/update/:id')
+  async updateProject(
+    @Req() req,
+    @Res() res: Response,
+    @Body() body: any,
+  ): Promise<any> {
+    try {
+      const project = await this.projectService.sharedFindByIdAndUpdate(req.params.id, body)
+      return this.sendResponse(this.messages.updated, project, HttpStatus.OK, res);
+    } catch (error) {
+      return this.sendResponse(
+        this.messages.Error,
+        {},
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        res,
+      );
+    }
+  }
+
   @Get('all')
   async getMarketPlaceMemes(
     @Req() req: any,
