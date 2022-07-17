@@ -68,7 +68,7 @@ export class ProjectController extends CommonServices {
   }
 
   @Get('all')
-  async getMarketPlaceMemes(
+  async getAllProjects(
     @Req() req: any,
     @Res() res: Response,
     @Query() query,
@@ -76,13 +76,13 @@ export class ProjectController extends CommonServices {
     try {
       const page = Number(query.page);
       const resPerPage = Number(query.resPerPage);
-      const title = query.title;
+      const search = query.search;
       const price = Number(query.price);
 
       const projects = await this.projectService.getAllProjects(
         page,
         resPerPage,
-        title,
+        search,
         price,
       );
       return this.sendResponse(

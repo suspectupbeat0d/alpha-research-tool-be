@@ -18,7 +18,7 @@ export class ProjectService extends sharedCrudService {
   async getAllProjects(
     page: number,
     resPerPage: number,
-    title: string,
+    search: string,
     price: number,
   ) {
 
@@ -40,7 +40,7 @@ export class ProjectService extends sharedCrudService {
     //     : null;
     // }
     
-    if (title) query.push({ title: { $regex: title, $options: 'i' } });
+    if (search) query.push({$or: [{ name: { $regex: search, $options: 'i' } }, { title: { $regex: search, $options: 'i' } }]});
 
     const [projects, projectsCount]: any = await Promise.all([
       this.projectRepo

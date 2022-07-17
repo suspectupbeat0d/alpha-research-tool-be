@@ -4,6 +4,7 @@ import { EProjectType } from 'src/enums/project.enums';
 
 export interface IProjectDocument extends Document {
   image: string;
+  name: string;
   title: string;
   bio: string;
   ebCount: number;
@@ -13,7 +14,7 @@ export interface IProjectDocument extends Document {
   previousStats: Object;
   followers: number;
   tweets: number;
-  creationDate: string;
+  createdDate: string;
   foundDate: string;
   foundAt: string;
   ebs: string;
@@ -27,6 +28,9 @@ export interface IProjectDocument extends Document {
 const ProjectSchema = new mongoose.Schema<IProjectDocument>(
   {
     image: {
+      type: String,
+    },
+    name: {
       type: String,
     },
     title: {
@@ -54,7 +58,7 @@ const ProjectSchema = new mongoose.Schema<IProjectDocument>(
     tweets: {
       type: Number,
     },
-    creationDate: { type: String },
+    createdDate: { type: String },
     foundDate: { type: String },
     foundAt: { type: String },
     ebs: { type: String },
