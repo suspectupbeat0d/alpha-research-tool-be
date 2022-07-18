@@ -19,16 +19,28 @@ export class ProjectService extends sharedCrudService {
     page: number,
     resPerPage: number,
     search: string,
-    price: number,
+    minEbcount: number,
+    maxEbcount: number,
+    minFollowers: number,
+    maxFollowers: number
   ) {
-
+    console.log(minFollowers, "minFollowers")
+    console.log(maxFollowers, "maxFollowers")
     const query = [];
     const sorting = [];
     let sort = {};
     sort['createdAt'] = -1;
     sorting.push({ createdAt: -1 });
     query.push({status: EProjectType.ACTIVE})
-    // if (price > 0) query.push({ price: { $lte: price } });
+
+    if (minEbcount > 0) query.push({ ebCount: { $gte: minEbcount } });
+    if (maxEbcount > 0) query.push({ ebCount: { $lte: maxEbcount } });
+    if(minEbcount > 0 && maxEbcount > 0) query.push({$and: [{ ebCount: { $gte: minEbcount } }, { ebCount: { $lte: maxEbcount } }]})
+
+    if (minFollowers > 0) query.push({ followers: { $gte: minFollowers } });
+    if (maxFollowers > 0) query.push({ followers: { $lte: maxFollowers } });
+    if(minFollowers > 0 && maxFollowers > 0) query.push({$and: [{ followers: { $gte: minFollowers } }, { followers: { $lte: maxFollowers } }]})
+
 
     // if (ranking) {
     //   ranking === FEATURED

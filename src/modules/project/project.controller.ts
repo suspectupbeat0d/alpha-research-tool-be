@@ -77,13 +77,19 @@ export class ProjectController extends CommonServices {
       const page = Number(query.page);
       const resPerPage = Number(query.resPerPage);
       const search = query.search;
-      const price = Number(query.price);
+      const minEbcount = query.minEbcount
+      const maxEbcount = query.maxEbcount
+      const minFollowers = query.minFollowers
+      const maxFollowers = query.maxFollowers
 
       const projects = await this.projectService.getAllProjects(
         page,
         resPerPage,
         search,
-        price,
+        minEbcount,
+        maxEbcount,
+        minFollowers,
+        maxFollowers,
       );
       return this.sendResponse(
         this.messages.Success,
