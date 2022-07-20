@@ -124,4 +124,19 @@ export class ProjectController extends CommonServices {
     }
   }
 
+  @Get('search/:name')
+  async getProjectByName(@Req() req: any, @Res() res: Response): Promise<any> {
+    try {
+      const project = await this.projectService.sharedFindOne({ name: { $regex: req.params.name, $options: 'i' } })
+      return this.sendResponse(this.messages.Success, project, HttpStatus.OK, res);
+    } catch (error) {
+      console.log(error);
+      return this.sendResponse(
+        this.messages.Error,
+        {},
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        res,
+      );
+    }
+  }
 }
