@@ -34,12 +34,15 @@ export class ProjectService extends sharedCrudService {
     max7Change: any,
     min7ChangeP: any,
     max7ChangeP: any,
+    sortBy: string,
+    sortType: string,
   ) {
     const query = [];
     const sorting = [];
     let sort = {};
-    // console.log("API CALL")
-    sort['createdAt'] = -1;
+
+    !sortBy ?  sort['createdAt'] = -1 : sort[sortBy] = sortType === 'asc' ? 1 : -1;
+
     sorting.push({ createdAt: -1 });
     query.push({ status: EProjectType.ACTIVE });
 

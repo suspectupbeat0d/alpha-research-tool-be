@@ -102,6 +102,8 @@ export class ProjectController extends CommonServices {
       const max24ChangeP = query.max24ChangeP;
       const min7ChangeP = query.min7ChangeP;
       const max7ChangeP = query.max7ChangeP;
+      const sortBy = query.sortBy;
+      const sortType = query.sortType;
 
       const projects = await this.projectService.getAllProjects(
         page,
@@ -124,6 +126,8 @@ export class ProjectController extends CommonServices {
         max7Change,
         min7ChangeP,
         max7ChangeP,
+        sortBy,
+        sortType
       );
       return this.sendResponse(
         this.messages.Success,
