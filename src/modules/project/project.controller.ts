@@ -17,6 +17,7 @@ import { CommonServices } from '../shared/services/common.service';
 import { AuthService } from '../auth/auth.service';
 import { Model } from 'mongoose';
 import { ProjectService } from './project.service';
+import { EProjectType } from 'src/enums/project.enums';
 
 @Controller('project')
 export class ProjectController extends CommonServices {
@@ -181,6 +182,32 @@ export class ProjectController extends CommonServices {
         HttpStatus.OK,
         res,
       );
+    } catch (error) {
+      console.log(error);
+      return this.sendResponse(
+        this.messages.Error,
+        {},
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        res,
+      );
+    }
+  }
+
+  @Get('block/:id')
+  @UseGuards(JwtAuthGuard)
+  async blockProject(@Req() req: any, @Res() res: Response): Promise<any> {
+    try {
+      if (!req.user.roles.includes('admin')) {
+        return this.sendResponse(
+          this.messages.onlyAdmin,
+          {},
+          HttpStatus.CONFLICT,
+          res,
+        );
+      }
+      const resp = await this.projectService.projectRepo.findByIdAndUpdate(req.params.id, {status: EProjectType.BLOCKED})
+
+      return this.sendResponse(this.messages.Success, {}, HttpStatus.OK, res);
     } catch (error) {
       console.log(error);
       return this.sendResponse(
