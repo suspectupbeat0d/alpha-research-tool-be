@@ -20,6 +20,7 @@ export interface IProjectDocument extends Document {
   ebs: string;
   ebScore: number;
   status: string;
+  lastScrapped: number;
   createdAt: Date;
   updatedAt: Date;
   deletedAt: Date;
@@ -67,6 +68,7 @@ const ProjectSchema = new mongoose.Schema<IProjectDocument>(
       type: String,
       default: EProjectType.ACTIVE,
     },
+    lastScrapped: { type: Number },
     deletedAt: Date,
   },
   {

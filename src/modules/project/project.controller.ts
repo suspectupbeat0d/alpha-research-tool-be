@@ -218,4 +218,27 @@ export class ProjectController extends CommonServices {
       );
     }
   }
+
+  @Get('/:timestamp')
+  async getLastScrapped(@Req() req: any, @Res() res: Response): Promise<any> {
+    try {
+      console.log(typeof(req.params.timestamp), "req.params.timestamp")
+      const timestampConvert = parseInt(req.params.timestamp)
+      console.log(timestampConvert, "timestampConvert")
+
+      const project = await this.projectService.sharedFindOne( {lastScrapped: {
+        $lt: timestampConvert,
+      }})
+
+      return this.sendResponse(this.messages.Success, project, HttpStatus.OK, res);
+    } catch (error) {
+      console.log(error);
+      return this.sendResponse(
+        this.messages.Error,
+        {},
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        res,
+      );
+    }
+  }
 }
