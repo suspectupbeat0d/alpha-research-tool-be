@@ -19,6 +19,7 @@ export interface IProjectDocument extends Document {
   foundAt: string;
   ebs: string;
   ebScore: number;
+  _ebScore: number;
   status: string;
   lastScrapped: number;
   createdAt: Date;
@@ -33,6 +34,7 @@ const ProjectSchema = new mongoose.Schema<IProjectDocument>(
     },
     name: {
       type: String,
+      unique: true
     },
     title: {
       type: String,
@@ -40,35 +42,30 @@ const ProjectSchema = new mongoose.Schema<IProjectDocument>(
     bio: {
       type: String,
     },
-    ebCount: { type: Number },
+    ebCount: { type: Number, default: 0 },
     notableFollowers: {
       type: String,
     },
-    notableFollowersCount: {
-      type: Number,
-    },
+    notableFollowersCount: { type: Number, default: 0 },
     changes: {
       type: Object,
     },
     previousStats: {
       type: Object,
     },
-    followers: {
-      type: Number,
-    },
-    tweets: {
-      type: Number,
-    },
+    followers: { type: Number, default: 0 },
+    tweets: { type: Number, default: 0 },
     createdDate: { type: String },
     foundDate: { type: String },
     foundAt: { type: String },
     ebs: { type: String },
-    ebScore: { type: Number },
+    ebScore: { type: Number, default: 0 },
+    _ebScore: { type: Number, default: 0 },
     status: {
       type: String,
       default: EProjectType.ACTIVE,
     },
-    lastScrapped: { type: Number },
+    lastScrapped: { type: Number, default: 0 },
     deletedAt: Date,
   },
   {

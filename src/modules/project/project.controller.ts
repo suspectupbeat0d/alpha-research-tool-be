@@ -32,11 +32,15 @@ export class ProjectController extends CommonServices {
   // @UseGuards(JwtAuthGuard)
   @Post('/add')
   async addProject(
-    @Req() req,
+    @Req() req, 
     @Res() res: Response,
     @Body() body: any,
   ): Promise<any> {
     try {
+      if(body.name) {
+        const projectResp = await this.projectService.sharedFindOne({name: body.name});
+        if(projectResp)  return this.sendResponse(this.messages.projectAlreadyExist, {}, HttpStatus.CONFLICT, res);
+      }
       const project = await this.projectService.sharedCreate(body);
       return this.sendResponse(this.messages.Success, {}, HttpStatus.OK, res);
     } catch (error) {
@@ -56,6 +60,10 @@ export class ProjectController extends CommonServices {
     @Body() body: any,
   ): Promise<any> {
     try {
+      if(body.name) {
+        const projectResp = await this.projectService.sharedFindOne({name: body.name});
+        if(projectResp)  return this.sendResponse(this.messages.projectAlreadyExist, {}, HttpStatus.CONFLICT, res);
+      }
       const project = await this.projectService.sharedFindByIdAndUpdate(
         req.params.id,
         body,
