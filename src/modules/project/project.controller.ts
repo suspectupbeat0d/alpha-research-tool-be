@@ -182,7 +182,8 @@ export class ProjectController extends CommonServices {
   async getProjectByName(@Req() req: any, @Res() res: Response): Promise<any> {
     try {
       const project = await this.projectService.sharedFindOne({
-        name: { $regex: req.params.name, $options: 'i' },
+        name: req.params.name,
+        // name: { $regex: req.params.name, $options: 'i' },
       });
       return this.sendResponse(
         this.messages.Success,
