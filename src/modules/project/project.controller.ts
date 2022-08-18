@@ -183,6 +183,7 @@ export class ProjectController extends CommonServices {
     try {
       const project = await this.projectService.sharedFindOne({
         name: req.params.name,
+        status: EProjectType.ACTIVE
         // name: { $regex: req.params.name, $options: 'i' },
       });
       return this.sendResponse(
