@@ -247,6 +247,26 @@ export class ProjectController extends CommonServices {
     }
   }
 
+  @Get('block-personal/:id')
+  async deleteProject(@Req() req: any, @Res() res: Response): Promise<any> {
+    try {
+      const resp = await this.projectService.projectRepo.findByIdAndUpdate(
+        req.params.id,
+        { status: EProjectType.BLOCKED },
+      );
+
+      return this.sendResponse(this.messages.Success, {}, HttpStatus.OK, res);
+    } catch (error) {
+      console.log(error);
+      return this.sendResponse(
+        this.messages.Error,
+        {},
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        res,
+      );
+    }
+  }
+
   @Get('/:timestamp')
   async getLastScrapped(@Req() req: any, @Res() res: Response): Promise<any> {
     try {
