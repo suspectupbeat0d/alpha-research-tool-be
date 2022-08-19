@@ -22,9 +22,8 @@ import { EProjectType } from 'src/enums/project.enums';
 @Controller('project')
 export class ProjectController extends CommonServices {
   constructor(
-    private readonly projectService: ProjectService,
-  ) // @Inject(VERIFIED_REPOSITORY)
-  // readonly verifiedUserRepo: Model<IVerifiedUserDocument>,
+    private readonly projectService: ProjectService, // @Inject(VERIFIED_REPOSITORY)
+  ) // readonly verifiedUserRepo: Model<IVerifiedUserDocument>,
   {
     super();
   }
@@ -32,14 +31,22 @@ export class ProjectController extends CommonServices {
   // @UseGuards(JwtAuthGuard)
   @Post('/add')
   async addProject(
-    @Req() req, 
+    @Req() req,
     @Res() res: Response,
     @Body() body: any,
   ): Promise<any> {
     try {
-      if(body.name) {
-        const projectResp = await this.projectService.sharedFindOne({name: body.name});
-        if(projectResp)  return this.sendResponse(this.messages.projectAlreadyExist, {}, HttpStatus.CONFLICT, res);
+      if (body.name) {
+        const projectResp = await this.projectService.sharedFindOne({
+          name: body.name,
+        });
+        if (projectResp)
+          return this.sendResponse(
+            this.messages.projectAlreadyExist,
+            {},
+            HttpStatus.CONFLICT,
+            res,
+          );
       }
       const project = await this.projectService.sharedCreate(body);
       return this.sendResponse(this.messages.Success, {}, HttpStatus.OK, res);
@@ -60,9 +67,17 @@ export class ProjectController extends CommonServices {
     @Body() body: any,
   ): Promise<any> {
     try {
-      if(body.name) {
-        const projectResp = await this.projectService.sharedFindOne({name: body.name});
-        if(projectResp)  return this.sendResponse(this.messages.projectAlreadyExist, {}, HttpStatus.CONFLICT, res);
+      if (body.name) {
+        const projectResp = await this.projectService.sharedFindOne({
+          name: body.name,
+        });
+        if (projectResp)
+          return this.sendResponse(
+            this.messages.projectAlreadyExist,
+            {},
+            HttpStatus.CONFLICT,
+            res,
+          );
       }
       const project = await this.projectService.sharedFindByIdAndUpdate(
         req.params.id,
@@ -136,7 +151,7 @@ export class ProjectController extends CommonServices {
         min7ChangeP,
         max7ChangeP,
         sortBy,
-        sortType
+        sortType,
       );
       return this.sendResponse(
         this.messages.Success,
@@ -183,7 +198,7 @@ export class ProjectController extends CommonServices {
     try {
       const project = await this.projectService.sharedFindOne({
         name: req.params.name,
-        status: EProjectType.ACTIVE
+        status: EProjectType.ACTIVE,
         // name: { $regex: req.params.name, $options: 'i' },
       });
       return this.sendResponse(
@@ -215,7 +230,10 @@ export class ProjectController extends CommonServices {
           res,
         );
       }
-      const resp = await this.projectService.projectRepo.findByIdAndUpdate(req.params.id, {status: EProjectType.BLOCKED})
+      const resp = await this.projectService.projectRepo.findByIdAndUpdate(
+        req.params.id,
+        { status: EProjectType.BLOCKED },
+      );
 
       return this.sendResponse(this.messages.Success, {}, HttpStatus.OK, res);
     } catch (error) {
@@ -232,15 +250,21 @@ export class ProjectController extends CommonServices {
   @Get('/:timestamp')
   async getLastScrapped(@Req() req: any, @Res() res: Response): Promise<any> {
     try {
-      console.log(typeof(req.params.timestamp), "req.params.timestamp")
-      const timestampConvert = parseInt(req.params.timestamp)
-      console.log(timestampConvert, "timestampConvert")
+      const timestampConvert = parseInt(req.params.timestamp);
 
-      const project = await this.projectService.sharedFindOne( {lastScrapped: {
-        $lt: timestampConvert,
-      }})
+      const project = await this.projectService.sharedFindOne({
+        lastScrapped: {
+          $lt: timestampConvert,
+        },
+        status: EProjectType.ACTIVE,
+      });
 
-      return this.sendResponse(this.messages.Success, project, HttpStatus.OK, res);
+      return this.sendResponse(
+        this.messages.Success,
+        project,
+        HttpStatus.OK,
+        res,
+      );
     } catch (error) {
       console.log(error);
       return this.sendResponse(
