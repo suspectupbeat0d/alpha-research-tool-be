@@ -22,9 +22,8 @@ import { EProjectType } from 'src/enums/project.enums';
 @Controller('project')
 export class ProjectController extends CommonServices {
   constructor(
-    private readonly projectService: ProjectService, // @Inject(VERIFIED_REPOSITORY)
-  ) // readonly verifiedUserRepo: Model<IVerifiedUserDocument>,
-  {
+    private readonly projectService: ProjectService, // @Inject(VERIFIED_REPOSITORY) // readonly verifiedUserRepo: Model<IVerifiedUserDocument>,
+  ) {
     super();
   }
 
@@ -271,13 +270,24 @@ export class ProjectController extends CommonServices {
   async getLastScrapped(@Req() req: any, @Res() res: Response): Promise<any> {
     try {
       const timestampConvert = parseInt(req.params.timestamp);
-
-      const project = await this.projectService.sharedFindOne({
-        lastScrapped: {
-          $lt: timestampConvert,
+      const project = await this.projectService.projectRepo.aggregate([
+        {
+          $match: {
+            lastScrapped: {
+              $lt: timestampConvert,
+            },
+            status: EProjectType.ACTIVE,
+          },
         },
-        status: EProjectType.ACTIVE,
-      });
+        { $sample: { size: 1 } },
+      ]);
+
+      // const project = await this.projectService.sharedFind({
+      //   lastScrapped: {
+      //     $lt: timestampConvert,
+      //   },
+      //   status: EProjectType.ACTIVE,
+      // });
 
       return this.sendResponse(
         this.messages.Success,
