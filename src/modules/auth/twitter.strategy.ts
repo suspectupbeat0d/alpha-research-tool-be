@@ -23,11 +23,11 @@ export class TwitterStrategy extends PassportStrategy(Strategy, 'twitter') {
     done: (err: any, user: any, info?: any) => void,
   ): Promise<any> {
     const { displayName, emails, photos, provider,username } = profile;
-
+    
     const user = {  
       name: displayName,
-      email: emails[0].value,
-      avatar: photos[0].value.replace(/_normal\./, '.'),
+      email: profile._json.email,
+      avatar: profile._json.profile_image_url.replace(/_normal\./, '.'),
       username: username,
       provider: provider,
       followers: profile._json.followers_count,
