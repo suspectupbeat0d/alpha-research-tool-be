@@ -101,9 +101,11 @@ export class AuthController extends CommonServices {
           `${env.FRONTEND_URL}/${NOT_EXIST}`);
         return;
       }
+      
       const user = await this.userService.sharedFindOne({
-        email: req.user.email,
+        username: req.user.username,
       });
+      
       if (user?.isActive === false) {
         res.redirect(
           `${env.FRONTEND_URL}/${BLOCKED}`);
