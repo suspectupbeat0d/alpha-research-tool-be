@@ -105,6 +105,8 @@ export class ProjectController extends CommonServices {
     @Query() query,
   ): Promise<any> {
     try {
+      console.log("QUERY =>",query);
+      
       const page = Number(query.page);
       const resPerPage = Number(query.resPerPage);
       const search = query.search;
